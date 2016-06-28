@@ -44,12 +44,15 @@ class FileMove {
      * @throws IOException if an error occurs moving the file
      */
     public static void move(final File src, final File target) throws IOException {
+        move(src, target, false);
+    }
+    public static void move(final File src, final File target, final boolean bytewise) throws IOException {
         // If the target (bfile) exists, delete it first. In some cases this should allow the rename to succeed
         if (target.exists()) {
             target.delete();
         }
         // First attempt to rename the file, if that fails manually copy the file
-        if (!src.renameTo(target)) {
+        if (bytewise || !src.renameTo(target)) {
 
             InputStream inStream = null;
             OutputStream outStream = null;
